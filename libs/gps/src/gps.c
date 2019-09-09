@@ -126,6 +126,8 @@ void GPS_Update(uint8_t* data,uint32_t length)
                         SaveToTFCard((char*)tmp);
                     GPS_Parse(tmp);
                 }
+		else
+			break;
             }
             else
                 break;
