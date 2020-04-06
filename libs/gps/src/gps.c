@@ -99,7 +99,13 @@ void GPS_Update(uint8_t* data,uint32_t length)
     bool ret = false;
     ret = Buffer_Puts(&gpsNmeaBuffer,data,length);
     if(!ret)
-        GPS_DEBUG_I("buffer overflow");
+    {
+        GPS_DEBUG_I("buffer overflow, clearing...");
+        Buffer_Clear(&gpsNmeaBuffer);
+        ret = Buffer_Puts(&gpsNmeaBuffer, data, length);
+        if(!ret)
+            GPS_DEBUG_I("failed to buffer");
+    }
     if(semCmdSending == NULL)
     {
         while(1)
